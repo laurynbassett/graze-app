@@ -1,15 +1,37 @@
-import { Ionicons } from '@expo/vector-icons';
-import * as React from 'react';
+import * as React from 'react'
+import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons'
 
-import Colors from '../constants/Colors';
+import Colors from '../constants/Colors'
 
-export default function TabBarIcon(props) {
+export function IonIcon(props) {
   return (
     <Ionicons
       name={props.name}
-      size={30}
+      size={23}
       style={{ marginBottom: -3 }}
-      color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+      color={props.focused ? Colors.tintColor : Colors.tabIconDefault}
     />
-  );
+  )
+}
+
+export function MaterialIcon(props) {
+  return (
+    <MaterialIcons
+      name={props.name}
+      size={23}
+      style={{ marginBottom: -3 }}
+      color={props.focused ? Colors.tintColor : Colors.tabIconDefault}
+    />
+  )
+}
+
+export function FontAwesomeIcon(props) {
+  return (
+    <FontAwesome
+      name={props.name}
+      size={23}
+      style={{ marginBottom: -3 }}
+      color={props.focused ? Colors.tintColor : Colors.tabIconDefault}
+    />
+  )
 }

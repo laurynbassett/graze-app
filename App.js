@@ -1,36 +1,45 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import * as React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+// import { createStackNavigator } from '@react-navigation/stack'
+import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 
-import useCachedResources from './hooks/useCachedResources';
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import LinkingConfiguration from './navigation/LinkingConfiguration';
+import LinkingConfiguration from './navigation/LinkingConfiguration'
+import AppNavigation from './navigation'
+import { LoginScreen, SignUpScreen } from './screens'
+import { auth } from './Firebase'
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator()
 
 export default function App(props) {
-  const isLoadingComplete = useCachedResources();
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-        <NavigationContainer linking={LinkingConfiguration}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
-    );
-  }
+  const isLoggedIn = auth.currentUser
+  return (
+    <View style={styles.container}>
+      {Platform.OS === 'ios' && <StatusBar barStyle='dark-content' />}
+      <NavigationContainer linking={LinkingConfiguration}>
+        <AppNavigation />
+        {/* {isLoggedIn ? (
+            <Stack.Screen
+              name='App'
+              component={BottomTabNavigator}
+              options={{
+                title: '',
+                tabBarVisible: false
+              }}
+            />
+          ) : (
+              <>
+              <Stack.Screen name='Login' component={LoginScreen} options={{ title: 'Login' }} />
+                <Stack.Screen name='SignUp' component={SignUpScreen} options={{ title: 'Sign Up' }} />
+                </>
+          )} */}
+      </NavigationContainer>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+    backgroundColor: '#fff'
+  }
+})
