@@ -9,6 +9,7 @@ if (!global.atob) {
 
 import { auth, firestore, storage } from '../Firebase'
 import reduceImageAsync from './reduceImageAsync'
+import getProfileAsync from './getProfileAsync'
 
 export const uploadPost = (uri, path) => {
   return new Promise(async (res, rej) => {
@@ -33,8 +34,6 @@ export const uploadPost = (uri, path) => {
         unsubscribe()
         const uri = await ref.getDownloadURL()
         const metadata = await ref.getMetadata()
-        console.log('UPLOAD POST metadata: ', metadata)
-        console.log('UPLOAD POST URI: ', uri)
 
         res({ name: metadata.name, uri })
       }
@@ -58,15 +57,21 @@ export default async function sharePost({ caption, image: localUri }) {
     const { uri: reducedImage, width, height } = await reduceImageAsync(localUri)
     const { uid } = auth.currentUser
     const { name, uri } = await getRemoteUri(reducedImage)
-    const userRef = firestore.collection('posts').doc(uid)
-    await userRef.collection('userPosts').doc(name).set({
+    const profile = await getProfileAsync()
+    const userRef = firestore.collection('posts').doc(name)
+    await userRef.set({
       id: name,
-      caption,
       uid: uid,
+      name: profile.name,
+      username: profile.username,
+      userAvatar: profile.userAvatar,
+      caption,
       timestamp: Date.now(),
       imageWidth: width,
       imageHeight: height,
-      uri
+      uri,
+      likes: 0,
+      comments: []
     })
 
     console.log('POSTED SUCCESS!')

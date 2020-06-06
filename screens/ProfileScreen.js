@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { BioBar, FollowBar, PostsGrid, TitleBar } from '../components'
-import { getPostsAsync, getProfileAsync } from '../utils'
+import { getUserPostsAsync, getProfileAsync } from '../utils'
 import Colors from '../constants/Colors'
 import Layout from '../constants/Layout'
 import { auth } from '../Firebase'
-import getProfileAsync from '../utils/getProfileAsync'
 
 export default class ProfileScreen extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ export default class ProfileScreen extends Component {
 
   async componentDidMount() {
     const profile = await getProfileAsync()
-    const posts = await getPostsAsync()
+    const posts = await getUserPostsAsync()
     this.setState({ profile, posts })
   }
 

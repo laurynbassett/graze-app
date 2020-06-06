@@ -1,7 +1,7 @@
 export { formatExplorePhotos, formatFeedPhotos } from './formatPhotos'
 export { signupWithEP, loginWithGoogle, loginWithEP, logout, checkLogin, checkErrors, getUser } from './auth'
 export { default as editProfileAsync } from './editProfileAsync'
-export { default as getPostsAsync } from './getPostsAsync'
+export { getAllPostsAsync, getUserPostsAsync } from './getPostsAsync'
 export { default as getProfileAsync } from './getProfileAsync'
 export { default as getPermissionAsync } from './getPermissionAsync'
 export { default as reduceImageAsync } from './reduceImageAsync'

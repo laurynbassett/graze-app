@@ -34,7 +34,7 @@ class Fire {
     // Listen for auth
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        console.log('USER LOGGED IN: ', user)
+        console.log('USER LOGGED IN')
       }
       // if (!user) {
       //   await firebase.auth().signInAnonymously()

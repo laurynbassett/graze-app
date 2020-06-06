@@ -1,40 +1,41 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 
-import blogs from '../seed/blogs'
-import { formatFeedPhotos } from '../utils'
+import { getAllPostsAsync } from '../utils'
 import { IconBar, TextBar, UserBar } from '../components'
 import Layout from '../constants/Layout'
 
-export default function HomeScreen() {
-  const [ feed, setFeed ] = useState([])
+export default class HomeScreen extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      posts: []
+    }
+  }
 
-  useEffect(() => {
-    const feed = formatFeedPhotos(blogs)
-    setFeed(feed)
-  }, [])
+  async componentDidMount() {
+    const posts = await getAllPostsAsync()
+    this.setState({ posts })
+  }
 
-  return (
-    <FlatList
-      style={styles.list}
-      numColumns={1}
-      data={feed}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item }) => (
-        <View style={styles.container}>
-          <UserBar name={item.name} image={item.thumb} />
-          <Image style={styles.image} source={{ uri: item.displayUrl }} />
-          <IconBar />
-          <TextBar name={item.name} likes={item.likes} caption={item.caption} comments={item.comments} />
-        </View>
-      )}
-    />
-  )
-}
-
-HomeScreen.navigationOptions = {
-  header: null
+  render() {
+    const { posts } = this.state
+    return (
+      <FlatList
+        style={styles.list}
+        numColumns={1}
+        data={posts}
+        renderItem={({ item }) => (
+          <View key={item.id} style={styles.container}>
+            <UserBar name={item.username} image={item.userAvatar} />
+            <Image style={styles.image} source={{ uri: item.uri }} />
+            <IconBar />
+            <TextBar name={item.username} likes={item.likes} caption={item.caption} comments={item.comments} />
+          </View>
+        )}
+      />
+    )
+  }
 }
 
 const styles = StyleSheet.create({

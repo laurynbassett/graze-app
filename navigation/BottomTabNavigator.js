@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
+import ExploreNavigator from './ExploreNavigator'
+import NotificationsNavigator from './NotificationsNavigator'
 import PostNavigator from './PostNavigator'
 import ProfileNavigator from './ProfileNavigator'
 import HomeNavigator from './HomeNavigator'
@@ -24,11 +26,10 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name='ExploreTab'
-        component={ExploreScreen}
+        component={ExploreNavigator}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ focused }) => <IonIcon name='ios-search' focused={focused} />
-          // headerTitle: getHeaderTitle(route)
         }}
       />
       <BottomTab.Screen
@@ -43,7 +44,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name='NotificationsTab'
-        component={NotificationsScreen}
+        component={NotificationsNavigator}
         options={{
           title: 'Notifications',
           tabBarLabel: '',

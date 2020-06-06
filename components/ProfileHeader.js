@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import { auth } from '../Firebase'
 import { getProfileAsync } from '../utils'
 
 export const ProfileHeaderCenter = props => {
@@ -10,7 +9,7 @@ export const ProfileHeaderCenter = props => {
 
   async function fetchUsername() {
     const result = await getProfileAsync()
-    if (result.username) {
+    if (result && result.username) {
       setName(result.username)
     } else {
       setName('Profile')

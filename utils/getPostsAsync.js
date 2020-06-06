@@ -1,21 +1,33 @@
 import { auth, firestore } from '../Firebase'
 
-// Get Images
-const getPostsAsync = async () => {
+// Get User Images
+export const getUserPostsAsync = async () => {
   try {
     const { uid } = auth.currentUser
 
-    const querySnapshot = await firestore.collection(`posts/${uid}/userPosts`).get()
-    console.log('SNAPSHOT', querySnapshot)
+    const userPostsQuery = await firestore.collection('posts').where('uid', '==', uid).get()
 
-    const posts = querySnapshot.docs.map(doc => {
+    const posts = userPostsQuery.docs.map(doc => {
       return doc.data()
     })
-    console.log('POSTS', posts)
+
     return posts
   } catch (err) {
     console.error('Error getting documents: ', err)
   }
 }
 
-export default getPostsAsync
+// Get All Images
+export const getAllPostsAsync = async () => {
+  try {
+    const postsRef = await firestore.collection('posts').get()
+    const posts = postsRef.docs.map(doc => {
+      return doc.data()
+    })
+
+    console.log('POSTS***', posts)
+    return posts
+  } catch (err) {
+    console.error('Error getting documents: ', err)
+  }
+}

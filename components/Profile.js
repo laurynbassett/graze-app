@@ -40,7 +40,9 @@ export const FollowBar = () => (
 
 export const TitleBar = ({ userAvatar, photoCount, followers, following }) => (
   <View style={styles.titleContainer}>
-    <Image style={styles.userAvatar} source={{ uri: userAvatar }} />
+    <View style={styles.avatarContainer}>
+      <Image style={styles.avatar} source={userAvatar ? { uri: userAvatar } : null} />
+    </View>
     <View style={styles.infoRows}>
       <Text style={styles.infoText}>{photoCount}</Text>
       <Text>Posts</Text>
@@ -67,18 +69,24 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 25,
+    marginLeft: 20,
     marginRight: 35,
     marginTop: 15,
     marginBottom: 15,
     width: Layout.window.width * 0.8
   },
-  userAvatar: {
+  avatarContainer: {
+    marginRight: 10,
     borderRadius: 100,
-    width: 100,
-    height: 100,
+    borderWidth: 5,
+    borderColor: 'white'
+  },
+  avatar: {
+    width: 90,
+    height: 90,
     resizeMode: 'cover',
-    marginRight: 10
+    borderRadius: 45,
+    backgroundColor: 'white'
   },
   infoRows: {
     flexDirection: 'column',

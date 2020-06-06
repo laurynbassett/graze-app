@@ -93,10 +93,7 @@ export default class ProfileSettingsScreen extends Component {
         >
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => logout().then(() => this.props.navigation.navigate('Login'))}
-          style={styles.button}
-        >
+        <TouchableOpacity onPress={() => logout(this.props.navigation)} style={styles.button}>
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>

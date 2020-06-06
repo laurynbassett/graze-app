@@ -94,7 +94,7 @@ export const signupWithEP = async (name, username, email, password, navigation) 
       })
       await auth.signInWithEmailAndPassword(email, password)
       // navigation.navigate('App')
-      navigation.navigate('Home')
+      // navigation.navigate('Home')
       console.log('SIGNED IN!')
     }
   } catch (err) {
@@ -107,7 +107,7 @@ export const signupWithEP = async (name, username, email, password, navigation) 
 export const loginWithEP = async (email, password) => {
   try {
     const user = await auth.signInWithEmailAndPassword(email, password)
-    console.log('USER LOGGED IN: ', user)
+    // console.log('USER LOGGED IN: ', user)
   } catch (err) {
     const errMessage = err.message
     console.error('Login Error: ', errMessage)
@@ -115,10 +115,11 @@ export const loginWithEP = async (email, password) => {
 }
 
 // Auth Logout
-export const logout = () => {
+export const logout = navigation => {
   try {
     auth.signOut()
     console.log('USER LOGGED OUT')
+    // navigation.navigate('Login')
     return true
   } catch (err) {
     const errMessage = err.message
