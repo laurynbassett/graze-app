@@ -21,7 +21,8 @@ const editProfileAsync = async ({ username, name, bio, url, userAvatar, navigati
     const userRef = firestore.collection('users').doc(uid)
 
     await userRef.update({ username, name, bio, url, userAvatar: avatar })
-    navigation.navigate('Profile')
+    console.log('NAV', navigation)
+    navigation.goBack()
   } catch (err) {
     console.error('Error getting documents: ', err)
   }

@@ -20,13 +20,13 @@ export default class ProfileSettingsScreen extends Component {
 
   async componentDidMount() {
     const profile = await getProfileAsync()
-    console.log('FETCHED PROFILE', profile)
+    // console.log('FETCHED PROFILE', profile)
     const { username = '', name = '', bio = '', url = '', userAvatar = '' } = profile
     this.setState({ username, name, bio, url, userAvatar, profile })
   }
 
   render() {
-    console.log('PROFILE SETTINGS STATE', this.state)
+    // console.log('PROFILE SETTINGS STATE', this.state)
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <Text style={styles.inputLabel}>Username:</Text>

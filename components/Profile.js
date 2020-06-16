@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 
 import Colors from '../constants/Colors'
 import Layout from '../constants/Layout'
@@ -18,14 +18,21 @@ export const BioBar = props => {
   )
 }
 
-export const PostsGrid = props => (
-  <FlatList
-    numColumns={3}
-    data={props.posts}
-    style={styles.grid}
-    renderItem={({ item }) => <Image key={item.id} style={styles.image} source={{ uri: item.uri }} />}
-  />
-)
+export const PostsGrid = props => {
+  return (
+    <FlatList
+      numColumns={3}
+      data={props.posts}
+      extraData={props.posts}
+      style={styles.grid}
+      renderItem={({ item }) => (
+        <TouchableHighlight onPress={() => props.navigation.navigate('Post', { item })}>
+          <Image key={item.id} style={styles.image} source={{ uri: item.uri }} />
+        </TouchableHighlight>
+      )}
+    />
+  )
+}
 
 export const FollowBar = () => (
   <View style={styles.followContainer}>
@@ -101,6 +108,8 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   bioText: {
+    marginTop: 5,
+    marginBottom: 5,
     lineHeight: 20
   },
   infoText: {

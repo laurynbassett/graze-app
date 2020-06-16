@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons'
 import Colors from '../constants/Colors'
 
 export const IconBar = () => (
-  <View style={styles.container}>
+  <View style={styles.iconContainer}>
     <View style={styles.row}>
       <Feather style={styles.icon} name='heart' size={24} />
       <Feather style={styles.icon} name='message-circle' size={24} />
@@ -29,7 +29,7 @@ export const TextBar = ({ name, likes, caption, comments }) => (
 )
 
 export const UserBar = ({ name, image }) => (
-  <View style={[ styles.container, styles.row ]}>
+  <View style={[ styles.userContainer, styles.row ]}>
     <View style={styles.row}>
       <Image style={styles.thumb} source={{ uri: image }} />
       <Text style={styles.text}>@{name}</Text>
@@ -38,13 +38,19 @@ export const UserBar = ({ name, image }) => (
 )
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  iconContainer: {
     flexDirection: 'row',
-    marginLeft: 25,
-    marginRight: 25,
-    marginTop: 10,
-    marginBottom: 10
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  userContainer: {
+    flexDirection: 'row',
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    marginBottom: 5
   },
   row: {
     flexDirection: 'row',
@@ -66,7 +72,8 @@ const styles = StyleSheet.create({
   },
   textBox: {
     flexDirection: 'column',
-    margin: 20
+    marginHorizontal: 20,
+    marginVertical: 10
   },
   caption: {
     flexDirection: 'row',

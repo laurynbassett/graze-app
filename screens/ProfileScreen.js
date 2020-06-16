@@ -11,6 +11,7 @@ export default class ProfileScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isLoading: false,
       profile: {
         name: '',
         bio: '',
@@ -21,19 +22,32 @@ export default class ProfileScreen extends Component {
       },
       posts: []
     }
+    this.fetchData = this.fetchData.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.fetchData()
+
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.fetchData()
+    })
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove()
+  }
+
+  async fetchData() {
+    this.setState({ isLoading: true })
     const profile = await getProfileAsync()
     const posts = await getUserPostsAsync()
-    this.setState({ profile, posts })
+    this.setState({ isLoading: false, profile, posts })
   }
 
   render() {
-    const { profile, posts } = this.state
-    // console.log('USER POSTS', posts)
+    const { isLoading, profile, posts } = this.state
 
-    return (
+    return isLoading ? null : (
       <View style={styles.container} contentContainerStyle={styles.contentContainer}>
         <TitleBar
           userAvatar={profile.userAvatar}
@@ -43,7 +57,11 @@ export default class ProfileScreen extends Component {
         />
         <BioBar name={profile.name} bio={profile.bio ? profile.bio : null} url={profile.url ? profile.url : null} />
         {auth.currentUser.email !== profile.email && <FollowBar />}
-        {posts.length ? <PostsGrid posts={posts} /> : <Text style={styles.text}>No posts</Text>}
+        {posts.length ? (
+          <PostsGrid posts={posts} navigation={this.props.navigation} />
+        ) : (
+          <Text style={styles.text}>No posts</Text>
+        )}
       </View>
     )
   }

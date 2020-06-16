@@ -1,4 +1,5 @@
 import { decode, encode } from 'base-64'
+import { CommonActions } from '@react-navigation/native'
 
 if (!global.btoa) {
   global.btoa = encode
@@ -52,7 +53,7 @@ getRemoteUri = async uri => {
 }
 
 // Share Post
-export default async function sharePost({ caption, image: localUri }) {
+export default async function sharePost({ caption, image: localUri }, navigation) {
   try {
     const { uri: reducedImage, width, height } = await reduceImageAsync(localUri)
     const { uid } = auth.currentUser
@@ -73,7 +74,8 @@ export default async function sharePost({ caption, image: localUri }) {
       likes: 0,
       comments: []
     })
-
+    navigation.reset({ index: 0, routes: [ { name: 'SelectPost' } ] })
+    navigation.navigate('ProfileTab')
     console.log('POSTED SUCCESS!')
   } catch ({ message }) {
     alert(message)

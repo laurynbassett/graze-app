@@ -11,7 +11,7 @@ export const getUserPostsAsync = async () => {
       return doc.data()
     })
 
-    return posts
+    return sortPosts(posts)
   } catch (err) {
     console.error('Error getting documents: ', err)
   }
@@ -25,9 +25,21 @@ export const getAllPostsAsync = async () => {
       return doc.data()
     })
 
-    console.log('POSTS***', posts)
-    return posts
+    // console.log('POSTS***', posts)
+    return sortPosts(posts)
   } catch (err) {
     console.error('Error getting documents: ', err)
   }
+}
+
+const sortPosts = posts => {
+  return posts.reduce((sorted, el) => {
+    let index = 0
+    while (index < sorted.length && el.timestamp < sorted[index].timestamp) {
+      console.log('EL', el.timestamp, 'index', index)
+      index++
+    }
+    sorted.splice(index, 0, el)
+    return sorted
+  }, [])
 }

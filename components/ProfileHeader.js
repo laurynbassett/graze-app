@@ -20,7 +20,7 @@ export const ProfileHeaderCenter = props => {
     fetchUsername()
   }, [])
 
-  return <Text style={styles.text}>{name}</Text>
+  return <Text style={styles.text}>@{name}</Text>
 }
 
 export const ProfileHeaderRight = props => {

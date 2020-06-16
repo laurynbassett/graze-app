@@ -9,18 +9,33 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isLoading: false,
       posts: []
     }
+    this.fetchPosts = this.fetchPosts.bind(this)
   }
 
   async componentDidMount() {
+    this.fetchPosts()
+
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.fetchPosts()
+    })
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove()
+  }
+
+  async fetchPosts() {
+    this.setState({ isLoading: true })
     const posts = await getAllPostsAsync()
-    this.setState({ posts })
+    this.setState({ isLoading: false, posts })
   }
 
   render() {
     const { posts } = this.state
-    return (
+    return this.state.isLoading ? null : (
       <FlatList
         style={styles.list}
         numColumns={1}
@@ -44,8 +59,8 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: Layout.window.width * 0.9,
-    height: Layout.window.width * 0.9,
+    width: Layout.window.width,
+    height: Layout.window.width,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,

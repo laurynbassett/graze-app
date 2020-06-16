@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-import { ProfileScreen, ProfileSettingsScreen } from '../screens'
+import { ProfileScreen, ProfileSettingsScreen, PostScreen } from '../screens'
 import { BackArrowIcon, ProfileHeaderCenter, ProfileHeaderRight } from '../components'
 
 const Stack = createStackNavigator()
@@ -18,6 +18,15 @@ export default function ProfileNavigator({ navigation, route }) {
           title: 'Profile',
           headerTitle: () => <ProfileHeaderCenter />,
           headerRight: () => <ProfileHeaderRight navigation={navigation} />
+        }}
+      />
+      <Stack.Screen
+        name='Post'
+        component={PostScreen}
+        options={{
+          title: 'Post',
+          headerTitle: () => <ProfileHeaderCenter />,
+          headerLeft: () => <BackArrowIcon onPress={() => navigation.navigate('Profile')} />
         }}
       />
       <Stack.Screen

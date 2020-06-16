@@ -32,8 +32,8 @@ export default class EditPost extends Component {
     navigation.setParams({ caption: this.state.caption })
     const caption = this.state.caption
     if (caption && image) {
-      navigation.navigate('ProfileTab')
-      sharePost({ caption: caption.trim(), image })
+      sharePost({ caption: caption.trim(), image }, navigation)
+      this.setState({ caption: '' })
     } else {
       alert('Please add a caption')
     }

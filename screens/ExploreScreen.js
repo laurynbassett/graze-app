@@ -1,26 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Image, StyleSheet } from 'react-native'
 
-import blogs from '../seed/blogs'
-import { formatExplorePhotos } from '../utils'
+import { getAllPostsAsync } from '../utils'
 import Colors from '../constants/Colors'
 
 export default function ExploreScreen() {
-  const [ photos, setPhotos ] = useState([])
+  const [ posts, setPosts ] = useState([])
 
-  useEffect(() => {
-    const photos = formatExplorePhotos(blogs)
-    setPhotos(photos)
-  }, [])
+  const fetchData = async () => {
+    const posts = await getAllPostsAsync()
+    console.log('POSTS ***', posts)
+    return posts
+  }
 
-  return (
-    <FlatList
-      style={styles.grid}
-      numColumns={3}
-      data={photos}
-      renderItem={({ item }) => <Image key={item.id} style={styles.image} source={{ uri: item.displayUrl }} />}
-    />
+  useEffect(
+    async () => {
+      const posts = await getAllPostsAsync()
+      setPosts(posts)
+    },
+    [ posts.length ]
   )
+  console.log('POSTS', posts)
+  if (posts.length) {
+    return (
+      <FlatList
+        style={styles.grid}
+        numColumns={3}
+        data={posts}
+        renderItem={({ item }) => <Image key={item.id} style={styles.image} source={{ uri: item.uri }} />}
+      />
+    )
+  }
+  return null
 }
 
 ExploreScreen.navigationOptions = {
