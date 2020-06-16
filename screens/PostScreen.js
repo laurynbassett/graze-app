@@ -12,7 +12,7 @@ const PostScreen = props => {
     <View key={item.id} style={styles.container}>
       <UserBar name={item.username} image={item.userAvatar} />
       <Image style={styles.image} source={{ uri: item.uri }} />
-      <IconBar />
+      <IconBar id={item.id} likes={item.likes} />
       <TextBar name={item.username} likes={item.likes} caption={item.caption} comments={item.comments} />
     </View>
   )

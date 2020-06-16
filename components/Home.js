@@ -1,23 +1,35 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Feather } from '@expo/vector-icons'
+import { Feather, FontAwesome } from '@expo/vector-icons'
 
 import Colors from '../constants/Colors'
+import { auth } from '../Firebase'
+import { likePost } from '../utils'
 
-export const IconBar = () => (
-  <View style={styles.iconContainer}>
-    <View style={styles.row}>
-      <Feather style={styles.icon} name='heart' size={24} />
-      <Feather style={styles.icon} name='message-circle' size={24} />
-      <Feather style={styles.icon} name='send' size={24} />
+export const IconBar = props => {
+  const { uid } = auth.currentUser
+  const userLiked = props.likes.includes(uid)
+  return (
+    <View style={styles.iconContainer}>
+      <View style={styles.row}>
+        <FontAwesome
+          style={styles.icon}
+          color={userLiked ? '#F44E65' : 'black'}
+          name={userLiked ? 'heart' : 'heart-o'}
+          size={24}
+          onPress={() => props.likePost(props.id, uid)}
+        />
+        <Feather style={styles.icon} name='message-circle' size={24} />
+        <Feather style={styles.icon} name='send' size={24} />
+      </View>
+      <Feather style={styles.icon} name='bookmark' size={24} />
     </View>
-    <Feather style={styles.icon} name='bookmark' size={24} />
-  </View>
-)
+  )
+}
 
 export const TextBar = ({ name, likes, caption, comments }) => (
   <View style={styles.textBox}>
-    <Text style={styles.text}>{likes} likes</Text>
+    <Text style={styles.text}>{likes.length} likes</Text>
     <View style={styles.caption}>
       <Text style={styles.nameText}>{name}</Text>
       <Text style={{ flex: 1 }} numberOfLines={1}>

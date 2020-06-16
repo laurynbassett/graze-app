@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
 
-import { getAllPostsAsync } from '../utils'
+import { getAllPostsAsync, likePost } from '../utils'
 import { IconBar, TextBar, UserBar } from '../components'
 import Layout from '../constants/Layout'
 
@@ -13,6 +13,7 @@ export default class HomeScreen extends Component {
       posts: []
     }
     this.fetchPosts = this.fetchPosts.bind(this)
+    this.handleLikePost = this.handleLikePost.bind(this)
   }
 
   async componentDidMount() {
@@ -33,6 +34,26 @@ export default class HomeScreen extends Component {
     this.setState({ isLoading: false, posts })
   }
 
+  handleLikePost(postId, uid) {
+    const { posts } = this.state
+
+    let likedPostIdx = posts.findIndex(post => post.id == postId)
+    let likedPost = posts.find(post => post.id === postId)
+    let otherPosts = posts.filter(post => post.id !== postId)
+    const userLiked = likedPost.likes.includes(uid)
+
+    likePost(postId, uid, userLiked)
+
+    if (userLiked) {
+      likedPost.likes = likedPost.likes.filter(userId => userId !== uid)
+    } else {
+      likedPost.likes.push(uid)
+    }
+    otherPosts.splice(likedPostIdx, 0, likedPost)
+
+    this.setState({ posts: otherPosts })
+  }
+
   render() {
     const { posts } = this.state
     return this.state.isLoading ? null : (
@@ -44,7 +65,7 @@ export default class HomeScreen extends Component {
           <View key={item.id} style={styles.container}>
             <UserBar name={item.username} image={item.userAvatar} />
             <Image style={styles.image} source={{ uri: item.uri }} />
-            <IconBar />
+            <IconBar id={item.id} likes={item.likes} likePost={this.handleLikePost} />
             <TextBar name={item.username} likes={item.likes} caption={item.caption} comments={item.comments} />
           </View>
         )}

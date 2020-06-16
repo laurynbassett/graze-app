@@ -71,7 +71,7 @@ export default async function sharePost({ caption, image: localUri }, navigation
       imageWidth: width,
       imageHeight: height,
       uri,
-      likes: 0,
+      likes: [],
       comments: []
     })
     navigation.reset({ index: 0, routes: [ { name: 'SelectPost' } ] })
