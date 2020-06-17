@@ -2,8 +2,8 @@
 import * as React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { HomeScreen, InboxScreen } from '../screens'
-import { HomeHeaderCenter, HomeHeaderRight, BackArrowIcon } from '../components'
+import { HomeScreen, InboxScreen, PostScreen, ProfileScreen } from '../screens'
+import { BackArrowIcon, HomeHeaderCenter, HomeHeaderRight } from '../components'
 
 const Stack = createStackNavigator()
 
@@ -30,6 +30,24 @@ export default function HomeNavigator({ navigation, route }) {
           headerLeft: () => <BackArrowIcon onPress={() => navigation.navigate('Home')} />
         }}
         navigationOptions={{ tabBarVisible: false }}
+      />
+      <Stack.Screen
+        name='Profile'
+        component={ProfileScreen}
+        options={({ route }) => ({
+          title: route.params ? `@${route.params.profile.username}` : 'Profile',
+          gestureEnabled: false,
+          headerLeft: () => <BackArrowIcon onPress={() => navigation.navigate('Home')} />
+        })}
+      />
+      <Stack.Screen
+        name='Post'
+        component={PostScreen}
+        options={{
+          title: 'Post',
+          headerTitle: () => <ProfileHeaderCenter />,
+          headerLeft: () => <BackArrowIcon onPress={() => navigation.navigate('Profile')} />
+        }}
       />
     </Stack.Navigator>
   )

@@ -4,10 +4,6 @@ import { FlatList, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity
 import Colors from '../constants/Colors'
 import Layout from '../constants/Layout'
 
-const onPress = () => {
-  console.log('Pressed!')
-}
-
 export const BioBar = props => {
   return (
     <View style={styles.bioContainer}>
@@ -24,7 +20,6 @@ export const PostsGrid = props => {
       numColumns={3}
       data={props.posts}
       extraData={props.posts}
-      style={styles.grid}
       renderItem={({ item }) => (
         <TouchableHighlight onPress={() => props.navigation.navigate('Post', { item })}>
           <Image key={item.id} style={styles.image} source={{ uri: item.uri }} />
@@ -34,16 +29,22 @@ export const PostsGrid = props => {
   )
 }
 
-export const FollowBar = () => (
-  <View style={styles.followContainer}>
-    <TouchableOpacity onPress={onPress} style={styles.btn}>
-      <Text style={styles.btnText}>Follow</Text>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={onPress} style={styles.btn}>
-      <Text style={styles.btnText}>Message</Text>
-    </TouchableOpacity>
-  </View>
-)
+export const FollowBar = props => {
+  const { isFollowing, handleFollowPress } = props
+  return (
+    <View style={styles.followContainer}>
+      <TouchableOpacity
+        onPress={() => handleFollowPress(props.uid)}
+        style={isFollowing ? styles.selectedBtn : styles.unselectedBtn}
+      >
+        <Text style={styles.btnText}>{isFollowing ? 'Following' : 'Follow'}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.unselectedBtn}>
+        <Text style={styles.btnText}>Message</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
 
 export const TitleBar = ({ userAvatar, photoCount, followers, following }) => (
   <View style={styles.titleContainer}>
@@ -55,11 +56,11 @@ export const TitleBar = ({ userAvatar, photoCount, followers, following }) => (
       <Text>Posts</Text>
     </View>
     <View style={styles.infoRows}>
-      <Text style={styles.infoText}>{followers}</Text>
+      <Text style={styles.infoText}>{followers.length}</Text>
       <Text>Followers</Text>
     </View>
     <View style={styles.infoRows}>
-      <Text style={styles.infoText}>{following}</Text>
+      <Text style={styles.infoText}>{following.length}</Text>
       <Text>Following</Text>
     </View>
   </View>
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 25,
     marginRight: 35,
-    marginBottom: 15
+    marginBottom: 5
   },
   url: {
     color: Colors.url
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     width: '100%'
   },
-  btn: {
+  unselectedBtn: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -146,15 +147,26 @@ const styles = StyleSheet.create({
     borderColor: Colors.tintColor,
     backgroundColor: Colors.tintColor
   },
+  selectedBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 5,
+    marginRight: 5,
+    height: 35,
+    width: Layout.window.width * 0.45,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: Colors.tintColor,
+    backgroundColor: Colors.selectedTint
+  },
   btnText: {
     color: 'white'
   },
-  grid: {
-    marginHorizontal: 2
-  },
   image: {
-    height: Layout.window.width * 0.32,
-    width: Layout.window.width * 0.32,
-    margin: 2
+    height: Layout.window.width * 0.33,
+    width: Layout.window.width * 0.33,
+    marginRight: 3,
+    marginBottom: 3
   }
 })

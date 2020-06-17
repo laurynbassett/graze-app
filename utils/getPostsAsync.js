@@ -1,12 +1,9 @@
 import { auth, firestore } from '../Firebase'
 
 // Get User Images
-export const getUserPostsAsync = async () => {
+export const getUserPostsAsync = async (uid = auth.currentUser.uid) => {
   try {
-    const { uid } = auth.currentUser
-
     const userPostsQuery = await firestore.collection('posts').where('uid', '==', uid).get()
-
     const posts = userPostsQuery.docs.map(doc => {
       return doc.data()
     })

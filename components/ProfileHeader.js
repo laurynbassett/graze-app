@@ -35,7 +35,8 @@ export const ProfileHeaderRight = props => {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 18
+    fontSize: 18,
+    fontWeight: '600'
   },
   icon: {
     marginRight: 20

@@ -36,9 +36,6 @@ class Fire {
       if (user) {
         console.log('USER LOGGED IN')
       }
-      // if (!user) {
-      //   await firebase.auth().signInAnonymously()
-      // }
     })
   }
 }

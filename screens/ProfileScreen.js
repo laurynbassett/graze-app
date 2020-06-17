@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { BioBar, FollowBar, PostsGrid, TitleBar } from '../components'
-import { getUserPostsAsync, getProfileAsync } from '../utils'
+import { followUser, getUserPostsAsync, getProfileAsync } from '../utils'
 import Colors from '../constants/Colors'
 import Layout from '../constants/Layout'
 import { auth } from '../Firebase'
@@ -16,38 +16,74 @@ export default class ProfileScreen extends Component {
         name: '',
         bio: '',
         url: '',
-        followers: 0,
-        following: 0,
+        followers: [],
+        following: [],
         userAvatar: ''
       },
       posts: []
     }
     this.fetchData = this.fetchData.bind(this)
+    this.handleFollowPress = this.handleFollowPress.bind(this)
+    this.isFollowing = this.isFollowing.bind(this)
   }
 
   componentDidMount() {
     this.fetchData()
 
-    this.focusListener = this.props.navigation.addListener('focus', () => {
+    this.props.navigation.addListener('focus', () => {
       this.fetchData()
     })
   }
 
   componentWillUnmount() {
-    this.focusListener.remove()
+    this.props.navigation.removeListener('focus')
   }
 
   async fetchData() {
     this.setState({ isLoading: true })
-    const profile = await getProfileAsync()
-    const posts = await getUserPostsAsync()
+    let profile = {},
+      posts = []
+    if (this.props.route.params) {
+      profile = this.props.route.params.profile
+      posts = await getUserPostsAsync(profile.uid)
+    } else {
+      profile = await getProfileAsync()
+      posts = await getUserPostsAsync()
+    }
+
     this.setState({ isLoading: false, profile, posts })
+  }
+
+  handleFollowPress(userId) {
+    console.log('Pressed Follow!')
+    const { profile } = this.state
+    const { uid } = auth.currentUser
+    const isFollowing = this.isFollowing()
+
+    let updatedProfile = {}
+
+    if (isFollowing) {
+      const followers = profile.followers.filter(follower => follower !== uid)
+      updatedProfile = Object.assign(profile, { followers })
+    } else {
+      const followers = [ ...profile.followers, uid ]
+      updatedProfile = Object.assign(profile, { followers })
+    }
+
+    this.setState({ profile })
+
+    followUser(userId, isFollowing)
+  }
+
+  isFollowing() {
+    console.log('IS FOLLOWING', this.state.profile.followers.includes(auth.currentUser.uid))
+    return this.state.profile.followers.includes(auth.currentUser.uid)
   }
 
   render() {
     const { isLoading, profile, posts } = this.state
-
-    return isLoading ? null : (
+    const isFollowing = this.isFollowing()
+    return isLoading || !profile ? null : (
       <View style={styles.container} contentContainerStyle={styles.contentContainer}>
         <TitleBar
           userAvatar={profile.userAvatar}
@@ -56,7 +92,9 @@ export default class ProfileScreen extends Component {
           following={profile.following}
         />
         <BioBar name={profile.name} bio={profile.bio ? profile.bio : null} url={profile.url ? profile.url : null} />
-        {auth.currentUser.email !== profile.email && <FollowBar />}
+        {auth.currentUser.email !== profile.email && (
+          <FollowBar isFollowing={isFollowing} handleFollowPress={this.handleFollowPress} uid={profile.uid} />
+        )}
         {posts.length ? (
           <PostsGrid posts={posts} navigation={this.props.navigation} />
         ) : (

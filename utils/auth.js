@@ -1,7 +1,7 @@
-import React from 'react'
 import { Constants } from 'expo'
 import * as Google from 'expo-google-app-auth'
 import { Asset } from 'expo-asset'
+import firebase from 'firebase/app'
 
 import { GOOGLE_IOS_CLIENT_ID } from 'react-native-dotenv'
 import { auth, firestore } from '../Firebase'
@@ -10,15 +10,13 @@ import { uploadPost } from './sharePost'
 // Google Login
 export const loginWithGoogle = async () => {
   try {
-    const { type, accessToken, user } = await Google.logInAsync({
+    const result = await Google.logInAsync({
       iosClientId: GOOGLE_IOS_CLIENT_ID,
       scopes: [ 'profile', 'email' ]
     })
 
-    if (type === 'success') {
-      console.log('USER', user)
-      console.log('ACCESS TOKEN', accessToken)
-      console.log('TYPE', type)
+    if (result.type === 'success') {
+      onGoogleSignIn(result)
     }
   } catch (e) {
     console.error('Error logging in: ', e)
@@ -29,45 +27,57 @@ export const loginWithGoogle = async () => {
 const onGoogleSignIn = googleUser => {
   console.log('Google Auth Response', googleUser)
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-  const unsubscribe = auth.onAuthStateChanged(firebaseUser => {
+  const unsubscribe = firebase.auth().onAuthStateChanged(async firebaseUser => {
     unsubscribe()
-    // Check if we are already signed-in Firebase with the correct user.
-    if (!isUserEqual(googleUser, firebaseUser)) {
-      // Build Firebase credential with the Google ID token.
-      const credential = auth.GoogleAuthProvider.credential(googleUser.idToken, googleUser.accessToken)
-      // Sign in with credential from the Google user.
-      auth
-        .signInWithCredential(credential)
-        .then(result => {
-          console.log('USER SIGNED IN: ', result)
-          if (result.additionalUserInfo.isNewUser) {
-            firestore.collection('users').doc(result.user.uid).set({
-              email: result.user.email.toLowerCase(),
-              // username:
-              name: `${result.additionalUserInfo.profile.given_name} ${result.additionalUserInfo.profile.family_name}`,
-              created_at: Date.now()
-            })
-          } else {
-            firestore.collection('users').doc(result.user.uid).update({
-              last_logged_in: Date.now()
-            })
-          }
-        })
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code
-          var errorMessage = error.message
 
-          console.error(errorCode, ': ', errorMessage)
-          // The email of the user's account used.
-          var email = error.email
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential
-          // ...
-          console.log('email: ', email, 'credentials: ', credential)
-        })
-    } else {
-      console.log('User already signed-in Firebase.')
+    try {
+      // Check if we are already signed-in Firebase with the correct user.
+      if (!isUserEqual(googleUser, firebaseUser)) {
+        // Build Firebase credential with the Google ID token.
+        const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.idToken, googleUser.accessToken)
+        // Sign in with credential from the Google user.
+        const result = await firebase.auth().signInWithCredential(credential)
+
+        console.log('USER SIGNED IN: ', result)
+        if (result.additionalUserInfo.isNewUser) {
+          const path = `userAvatars/${result.user.uid}/avatar.png`
+          const uploadUri = Asset.fromModule(require('../assets/images/default-avatar.png'))
+          const { uri } = await uploadPost(uploadUri.uri, path)
+          console.log('URI', uri)
+
+          const { given_name, family_name } = result.additionalUserInfo.profile
+          let username = `${given_name.toLowerCase()}${family_name.toLowerCase()}`
+
+          const usernameRef = await firestore.collection('users').where('username', '==', username).get()
+
+          let results = usernameRef.docs.map(doc => doc.data())
+          if (results.length > 0) {
+            username += result.user.uid
+          }
+
+          const newUser = await firestore.collection('users').doc(result.user.uid).set({
+            email: result.user.email.toLowerCase(),
+            username,
+            name: `${given_name} ${family_name}`,
+            bio: '',
+            userAvatar: uri,
+            followers: [],
+            following: [],
+            created_at: Date.now()
+          })
+        } else {
+          console.log('IS NOT NEW USER')
+
+          await firestore.collection('users').doc(result.user.uid).update({
+            last_logged_in: Date.now()
+          })
+        }
+      } else {
+        console.log('User already signed-in with Firebase.')
+      }
+    } catch (err) {
+      // The email of the user's account used and the firebase.auth.AuthCredential type that was used
+      console.error('GOOGLE SIGN IN ERROR - code: ', err)
     }
   })
 }
@@ -89,13 +99,11 @@ export const signupWithEP = async (name, username, email, password, navigation) 
         username,
         created_at: Date.now(),
         userAvatar: uri,
-        followers: 0,
-        following: 0
+        followers: [],
+        following: []
       })
       await auth.signInWithEmailAndPassword(email, password)
-      // navigation.navigate('App')
-      // navigation.navigate('Home')
-      console.log('SIGNED IN!')
+      console.log('SIGNED IN W/ EP!')
     }
   } catch (err) {
     const errMessage = err.message
@@ -119,7 +127,7 @@ export const logout = navigation => {
   try {
     auth.signOut()
     console.log('USER LOGGED OUT')
-    // navigation.navigate('Login')
+    navigation.popToTop()
     return true
   } catch (err) {
     const errMessage = err.message
@@ -164,4 +172,21 @@ export const checkErrors = (email, password) => {
 export const getUser = () => {
   const { deviceId, deviceName, platform } = Constants
   return { deviceId, deviceName, platform }
+}
+
+// Check if users are same
+const isUserEqual = (googleUser, firebaseUser) => {
+  if (firebaseUser) {
+    var providerData = firebaseUser.providerData
+    for (var i = 0; i < providerData.length; i++) {
+      if (
+        providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+        providerData[i].uid === googleUser.getBasicProfile().getId()
+      ) {
+        // We don't need to reauth the Firebase connection.
+        return true
+      }
+    }
+  }
+  return false
 }

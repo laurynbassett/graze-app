@@ -19,13 +19,13 @@ export default class HomeScreen extends Component {
   async componentDidMount() {
     this.fetchPosts()
 
-    this.focusListener = this.props.navigation.addListener('focus', () => {
+    this.props.navigation.addListener('focus', () => {
       this.fetchPosts()
     })
   }
 
   componentWillUnmount() {
-    this.focusListener.remove()
+    this.props.navigation.removeListener('focus')
   }
 
   async fetchPosts() {
@@ -37,7 +37,7 @@ export default class HomeScreen extends Component {
   handleLikePost(postId, uid) {
     const { posts } = this.state
 
-    let likedPostIdx = posts.findIndex(post => post.id == postId)
+    let likedPostIdx = posts.findIndex(post => post.id === postId)
     let likedPost = posts.find(post => post.id === postId)
     let otherPosts = posts.filter(post => post.id !== postId)
     const userLiked = likedPost.likes.includes(uid)
@@ -63,10 +63,10 @@ export default class HomeScreen extends Component {
         data={posts}
         renderItem={({ item }) => (
           <View key={item.id} style={styles.container}>
-            <UserBar name={item.username} image={item.userAvatar} />
+            <UserBar post={item} navigation={this.props.navigation} />
             <Image style={styles.image} source={{ uri: item.uri }} />
             <IconBar id={item.id} likes={item.likes} likePost={this.handleLikePost} />
-            <TextBar name={item.username} likes={item.likes} caption={item.caption} comments={item.comments} />
+            <TextBar post={item} navigation={this.props.navigation} />
           </View>
         )}
       />

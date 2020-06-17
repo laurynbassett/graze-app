@@ -1,10 +1,11 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Feather, FontAwesome } from '@expo/vector-icons'
 
 import Colors from '../constants/Colors'
 import { auth } from '../Firebase'
 import { likePost } from '../utils'
+import getProfileAsync from '../utils/getProfileAsync'
 
 export const IconBar = props => {
   const { uid } = auth.currentUser
@@ -27,27 +28,54 @@ export const IconBar = props => {
   )
 }
 
-export const TextBar = ({ name, likes, caption, comments }) => (
-  <View style={styles.textBox}>
-    <Text style={styles.text}>{likes.length} likes</Text>
-    <View style={styles.caption}>
-      <Text style={styles.nameText}>{name}</Text>
-      <Text style={{ flex: 1 }} numberOfLines={1}>
-        {caption}
-      </Text>
-    </View>
-    <Text style={styles.subtext}>View all {comments} comments</Text>
-  </View>
-)
+export const TextBar = props => {
+  const { post, navigation } = props
 
-export const UserBar = ({ name, image }) => (
-  <View style={[ styles.userContainer, styles.row ]}>
-    <View style={styles.row}>
-      <Image style={styles.thumb} source={{ uri: image }} />
-      <Text style={styles.text}>@{name}</Text>
+  // navigate to user profile
+  const goToProfile = async () => {
+    const profile = await getProfileAsync(post.uid)
+    navigation.navigate('Profile', { profile })
+  }
+  return (
+    <View style={styles.textBox}>
+      <Text style={styles.text}>{`${post.likes.length} ${post.likes.length === 1 ? 'like' : 'likes'}`}</Text>
+      <View style={styles.caption}>
+        <TouchableOpacity onPress={goToProfile}>
+          <Text style={styles.nameText}>{post.username}</Text>
+        </TouchableOpacity>
+        <Text style={{ flex: 1 }} numberOfLines={1}>
+          {post.caption}
+        </Text>
+      </View>
+      {post.comments.length ? (
+        <Text style={styles.subtext}>View all {post.comments.length} comments</Text>
+      ) : (
+        <Text style={styles.subtext}>0 comments</Text>
+      )}
     </View>
-  </View>
-)
+  )
+}
+
+export const UserBar = props => {
+  const { post, navigation } = props
+
+  // navigate to user profile
+  const goToProfile = async () => {
+    const profile = await getProfileAsync(post.uid)
+    navigation.navigate('Profile', { profile })
+  }
+
+  return (
+    <View style={[ styles.userContainer, styles.row ]}>
+      <View style={styles.row}>
+        <Image style={styles.thumb} source={{ uri: post.userAvatar }} />
+        <TouchableOpacity onPress={goToProfile}>
+          <Text style={styles.text}>@{post.username}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   iconContainer: {

@@ -49,7 +49,11 @@ class Login extends Component {
           <Text style={styles.btnText}>Sign In</Text>
         </TouchableOpacity>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.googleBtn} activeOpacity={0.5} onPress={() => loginWithGoogle()}>
+          <TouchableOpacity
+            style={styles.googleBtn}
+            activeOpacity={0.5}
+            onPress={() => loginWithGoogle(this.props.navigation)}
+          >
             <Image source={require('../assets/images/google-button.png')} style={styles.googleBtnIcon} />
             <Text style={styles.googleBtnText}> Sign In with Google </Text>
           </TouchableOpacity>

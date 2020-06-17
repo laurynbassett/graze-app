@@ -1,14 +1,13 @@
 import * as React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 
 import { ProfileScreen, ProfileSettingsScreen, PostScreen } from '../screens'
 import { BackArrowIcon, ProfileHeaderCenter, ProfileHeaderRight } from '../components'
 
 const Stack = createStackNavigator()
 
-export default function ProfileNavigator({ navigation, route }) {
+export default function ProfileNavigator({ navigation }) {
   return (
     <Stack.Navigator initialRouteName='Profile' navigationOptions={{ tabBarVisible: false }}>
       <Stack.Screen

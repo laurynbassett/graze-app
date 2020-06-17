@@ -1,10 +1,9 @@
 import { auth, firestore } from '../Firebase'
 
 // Get Images
-const getProfileAsync = async () => {
+const getProfileAsync = async (uid = auth.currentUser.uid) => {
   try {
-    const { uid } = auth.currentUser
-
+    console.log('UID', uid)
     const profileRef = firestore.collection('users').doc(uid)
     const doc = await profileRef.get()
 
