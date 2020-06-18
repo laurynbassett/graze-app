@@ -45,7 +45,7 @@ export default function HomeNavigator({ navigation, route }) {
         component={PostScreen}
         options={{
           title: 'Post',
-          headerTitle: () => <ProfileHeaderCenter />,
+          headerTitle: () => <ProfileHeaderCenter navigation={navigation} />,
           headerLeft: () => <BackArrowIcon onPress={() => navigation.navigate('Profile')} />
         }}
       />

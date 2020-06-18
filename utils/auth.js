@@ -128,7 +128,6 @@ export const logout = navigation => {
     auth.signOut()
     console.log('USER LOGGED OUT')
     navigation.popToTop()
-    return true
   } catch (err) {
     const errMessage = err.message
     console.error('Logout Error: ', errMessage)

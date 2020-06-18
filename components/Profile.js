@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import Colors from '../constants/Colors'
 import Layout from '../constants/Layout'
@@ -15,26 +15,27 @@ export const BioBar = props => {
 }
 
 export const PostsGrid = props => {
+  console.log('POSTS GRID PROPS', props)
   return (
     <FlatList
       numColumns={3}
       data={props.posts}
-      extraData={props.posts}
       renderItem={({ item }) => (
-        <TouchableHighlight onPress={() => props.navigation.navigate('Post', { item })}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Post', { item })}>
           <Image key={item.id} style={styles.image} source={{ uri: item.uri }} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       )}
     />
   )
 }
 
 export const FollowBar = props => {
-  const { isFollowing, handleFollowPress } = props
+  const { isFollowing, handleFollowPress, uid } = props
+  console.log('FOLLOW PROPS', props)
   return (
     <View style={styles.followContainer}>
       <TouchableOpacity
-        onPress={() => handleFollowPress(props.uid)}
+        onPress={() => handleFollowPress(uid)}
         style={isFollowing ? styles.selectedBtn : styles.unselectedBtn}
       >
         <Text style={styles.btnText}>{isFollowing ? 'Following' : 'Follow'}</Text>
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 25,
     marginRight: 35,
-    marginBottom: 5
+    marginBottom: 10
   },
   url: {
     color: Colors.url

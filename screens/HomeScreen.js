@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { FlatList, Image, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 
 import { getAllPostsAsync, likePost } from '../utils'
-import { IconBar, TextBar, UserBar } from '../components'
-import Layout from '../constants/Layout'
+import { Post } from '../components'
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -62,12 +61,7 @@ export default class HomeScreen extends Component {
         numColumns={1}
         data={posts}
         renderItem={({ item }) => (
-          <View key={item.id} style={styles.container}>
-            <UserBar post={item} navigation={this.props.navigation} />
-            <Image style={styles.image} source={{ uri: item.uri }} />
-            <IconBar id={item.id} likes={item.likes} likePost={this.handleLikePost} />
-            <TextBar post={item} navigation={this.props.navigation} />
-          </View>
+          <Post handleLikePost={this.handleLikePost} item={item} navigation={this.props.navigation} />
         )}
       />
     )
@@ -77,19 +71,5 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   list: {
     backgroundColor: 'white'
-  },
-  image: {
-    flex: 1,
-    width: Layout.window.width,
-    height: Layout.window.width,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    resizeMode: 'cover',
-    alignSelf: 'center'
-  },
-  caption: {
-    overflow: 'hidden'
   }
 })

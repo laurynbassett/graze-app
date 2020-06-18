@@ -35,6 +35,7 @@ export default class ProfileSettingsScreen extends Component {
           style={styles.text}
           value={this.state.username}
           placeholder='Username'
+          autoCapitalize='none'
           onChangeText={username => this.setState({ username })}
           containerStyle={styles.listItem}
         />

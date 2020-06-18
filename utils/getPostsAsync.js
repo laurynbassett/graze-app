@@ -1,5 +1,18 @@
 import { auth, firestore } from '../Firebase'
 
+// Get Single User Image
+export const getSingleUserPostAsync = async postId => {
+  try {
+    const userPostQuery = await firestore.collection('posts').doc(postId).get()
+
+    console.log('USER POST QUERY DATA', userPostQuery.data())
+    const post = userPostQuery.data()
+    return post
+  } catch (err) {
+    console.error('Error getting documents: ', err)
+  }
+}
+
 // Get User Images
 export const getUserPostsAsync = async (uid = auth.currentUser.uid) => {
   try {
@@ -23,7 +36,7 @@ export const getAllPostsAsync = async () => {
     })
 
     // console.log('POSTS***', posts)
-    return sortPosts(posts)
+    return posts
   } catch (err) {
     console.error('Error getting documents: ', err)
   }

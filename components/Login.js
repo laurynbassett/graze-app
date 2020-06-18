@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   image: {
+    marginTop: 60,
     height: 200,
     width: 200
   },

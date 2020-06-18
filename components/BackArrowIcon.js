@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 export const BackArrowIcon = props => {
+  console.log('PROPSBACK', props)
   return (
     <TouchableOpacity style={styles.left} onPress={props.onPress} hitSlop={styles.hitSlop}>
       <Ionicons name='ios-arrow-back' size={25} />

@@ -16,9 +16,18 @@ export default class SelectPostScreen extends Component {
   }
 
   async componentDidMount() {
+    // on blur, reset image
+        this.props.navigation.addListener('blur', ()=> {
+          this.setState({image:null})
+        });
     const cameraRollStatus = await getPermissionAsync(Permissions.CAMERA_ROLL)
     const cameraStatus = await getPermissionAsync(Permissions.CAMERA)
     this.setState({ cameraRollStatus, cameraStatus })
+  }
+
+  componentWillUnmount(){
+    // remove blur listener on component unmount
+    this.props.navigation.removeListener('blur')
   }
 
   nextScreen = () => {

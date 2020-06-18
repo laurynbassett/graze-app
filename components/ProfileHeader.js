@@ -9,15 +9,24 @@ export const ProfileHeaderCenter = props => {
 
   async function fetchUsername() {
     const result = await getProfileAsync()
+
     if (result && result.username) {
       setName(result.username)
     } else {
       setName('Profile')
     }
   }
-
   useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      // Refetch data when screen is in focus
+      fetchUsername()
+    })
+
+    // fetch initial data
     fetchUsername()
+
+    // Return unsubscribe from event so it gets removed on unmount
+    return unsubscribe
   }, [])
 
   return <Text style={styles.text}>@{name}</Text>

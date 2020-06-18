@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Image, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 
 import { getAllPostsAsync, getMatchingUsersAsync } from '../utils'
-import Colors from '../constants/Colors'
-import { Search, SearchListItem } from '../components'
+import { PostsGrid, Search, SearchListItem } from '../components'
 
 export default function ExploreScreen(props) {
   const [ posts, setPosts ] = useState([])
@@ -29,11 +28,21 @@ export default function ExploreScreen(props) {
 
   const clearSearch = () => {
     setSearchQuery('')
+    setSearchResults([])
   }
 
   useEffect(
     () => {
+      // set up listener on blur
+      const unsubscribe = props.navigation.addListener('blur', () => {
+        console.log('BLURRED')
+        clearSearch()
+      })
+      // fetch all user posts
       fetchPosts()
+
+      // return to unsubscribe listener on unmount
+      return unsubscribe
     },
     [ posts.length ]
   )
@@ -51,14 +60,9 @@ export default function ExploreScreen(props) {
           renderItem={({ item }) => <SearchListItem profile={item} navigation={props.navigation} />}
           keyExtractor={(item, index) => index.toString()}
         />
-      ) : (
-        <FlatList
-          style={styles.grid}
-          numColumns={3}
-          data={posts}
-          renderItem={({ item }) => <Image key={item.id} style={styles.image} source={{ uri: item.uri }} />}
-        />
-      )}
+      ) : posts.length ? (
+        <PostsGrid posts={posts} navigation={props.navigation} />
+      ) : null}
     </View>
   )
 }
@@ -68,22 +72,7 @@ ExploreScreen.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.lightestGray
-  },
   list: {
     flexDirection: 'column'
-  },
-  grid: {
-    flexDirection: 'column',
-    flexWrap: 'wrap'
-  },
-  image: {
-    width: 124,
-    height: 124,
-    marginRight: 2,
-    marginBottom: 2,
-    resizeMode: 'cover'
   }
 })

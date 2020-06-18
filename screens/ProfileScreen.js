@@ -36,7 +36,9 @@ export default class ProfileScreen extends Component {
   }
 
   componentWillUnmount() {
-    this.props.navigation.removeListener('focus')
+    this.props.navigation.removeListener('focus', () => {
+      console.log('REMOVING PROFILE SCREEN FOCUS LISTENER')
+    })
   }
 
   async fetchData() {
@@ -50,7 +52,6 @@ export default class ProfileScreen extends Component {
       profile = await getProfileAsync()
       posts = await getUserPostsAsync()
     }
-
     this.setState({ isLoading: false, profile, posts })
   }
 
@@ -69,21 +70,23 @@ export default class ProfileScreen extends Component {
       const followers = [ ...profile.followers, uid ]
       updatedProfile = Object.assign(profile, { followers })
     }
-
-    this.setState({ profile })
-
+    // update following/followers in firebase
     followUser(userId, isFollowing)
+    // update user followers on state
+    this.setState({ profile: updatedProfile })
   }
 
   isFollowing() {
-    console.log('IS FOLLOWING', this.state.profile.followers.includes(auth.currentUser.uid))
     return this.state.profile.followers.includes(auth.currentUser.uid)
   }
 
   render() {
+    console.log('RENDER')
     const { isLoading, profile, posts } = this.state
+    console.log('PROFILE', profile)
     const isFollowing = this.isFollowing()
-    return isLoading || !profile ? null : (
+
+    return isLoading || !profile.uid ? null : (
       <View style={styles.container} contentContainerStyle={styles.contentContainer}>
         <TitleBar
           userAvatar={profile.userAvatar}

@@ -4,8 +4,7 @@ import { Feather, FontAwesome } from '@expo/vector-icons'
 
 import Colors from '../constants/Colors'
 import { auth } from '../Firebase'
-import { likePost } from '../utils'
-import getProfileAsync from '../utils/getProfileAsync'
+import { goToProfileAsync, getProfileAsync } from '../utils'
 
 export const IconBar = props => {
   const { uid } = auth.currentUser
@@ -18,7 +17,7 @@ export const IconBar = props => {
           color={userLiked ? '#F44E65' : 'black'}
           name={userLiked ? 'heart' : 'heart-o'}
           size={24}
-          onPress={() => props.likePost(props.id, uid)}
+          onPress={() => props.likePost(props.id, uid, userLiked)}
         />
         <Feather style={styles.icon} name='message-circle' size={24} />
         <Feather style={styles.icon} name='send' size={24} />
@@ -29,18 +28,13 @@ export const IconBar = props => {
 }
 
 export const TextBar = props => {
-  const { post, navigation } = props
+  const { navigation, post } = props
 
-  // navigate to user profile
-  const goToProfile = async () => {
-    const profile = await getProfileAsync(post.uid)
-    navigation.navigate('Profile', { profile })
-  }
   return (
     <View style={styles.textBox}>
       <Text style={styles.text}>{`${post.likes.length} ${post.likes.length === 1 ? 'like' : 'likes'}`}</Text>
       <View style={styles.caption}>
-        <TouchableOpacity onPress={goToProfile}>
+        <TouchableOpacity onPress={() => goToProfileAsync(navigation, post)}>
           <Text style={styles.nameText}>{post.username}</Text>
         </TouchableOpacity>
         <Text style={{ flex: 1 }} numberOfLines={1}>
@@ -57,19 +51,13 @@ export const TextBar = props => {
 }
 
 export const UserBar = props => {
-  const { post, navigation } = props
-
-  // navigate to user profile
-  const goToProfile = async () => {
-    const profile = await getProfileAsync(post.uid)
-    navigation.navigate('Profile', { profile })
-  }
+  const { navigation, post } = props
 
   return (
     <View style={[ styles.userContainer, styles.row ]}>
       <View style={styles.row}>
         <Image style={styles.thumb} source={{ uri: post.userAvatar }} />
-        <TouchableOpacity onPress={goToProfile}>
+        <TouchableOpacity onPress={() => goToProfileAsync(navigation, post)}>
           <Text style={styles.text}>@{post.username}</Text>
         </TouchableOpacity>
       </View>

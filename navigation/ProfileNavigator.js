@@ -15,7 +15,7 @@ export default function ProfileNavigator({ navigation }) {
         component={ProfileScreen}
         options={{
           title: 'Profile',
-          headerTitle: () => <ProfileHeaderCenter />,
+          headerTitle: () => <ProfileHeaderCenter navigation={navigation} />,
           headerRight: () => <ProfileHeaderRight navigation={navigation} />
         }}
       />
@@ -24,7 +24,7 @@ export default function ProfileNavigator({ navigation }) {
         component={PostScreen}
         options={{
           title: 'Post',
-          headerTitle: () => <ProfileHeaderCenter />,
+          headerTitle: () => <ProfileHeaderCenter navigation={navigation} />,
           headerLeft: () => <BackArrowIcon onPress={() => navigation.navigate('Profile')} />
         }}
       />

@@ -2,17 +2,13 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 
 import Colors from '../constants/Colors'
+import { goToProfileAsync } from '../utils'
 
 const SearchListItem = props => {
-  const { profile, navigation } = props
+  const { navigation, profile } = props
 
-  // navigate to user profile
-  const goToProfile = async () => {
-    navigation.navigate('Profile', { profile })
-  }
-  console.log('PROPS', props)
   return (
-    <TouchableHighlight onPress={() => goToProfile()}>
+    <TouchableHighlight onPress={() => goToProfileAsync(navigation, profile)}>
       <View style={styles.container}>
         <Image style={styles.itemImage} source={{ uri: profile.userAvatar, width: 20, height: 20 }} />
         <Text style={styles.itemName}>@{profile.username}</Text>
