@@ -20,14 +20,15 @@ _Feed Screen_
 
 _Explore & Profile Screens_
 
-![Explore & Profile Screens](/assets/screenshots/explore.gif)
+<img src="/assets/screenshots/explore.gif" width='200' height="400" />
 
 _Post Screens_
-![Post Screens](/assets/screenshots/post.gif)
+
+<img src="/assets/screenshots/post.gif" width='200' height="400" />
 
 _Settings Screen_
 
-![Settings Screen](/assets/screenshots/settings.gif)
+<img src="/assets/screenshots/settings.gif" width='200' height="400" />
 
 ---
 
