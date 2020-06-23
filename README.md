@@ -16,7 +16,7 @@ To build the app without having to write Native code I used Expo, a toolchain bu
 
 _Feed Screen_
 
-![Feed Screen](/assets/screenshots/feed.gif)
+<img src="/assets/screenshots/feed.gif" width='200' height="400" />
 
 _Explore & Profile Screens_
 
