@@ -16,18 +16,18 @@ To build the app without having to write Native code I used Expo, a toolchain bu
 
 _Feed Screen_
 
-![Feed Screen](https://firebasestorage.googleapis.com/v0/b/graze-app.appspot.com/o/gifs%2Ffeed.gif?alt=media&token=b6b3d0df-665b-462d-abd3-646461db9fad)
+![Feed Screen](/assets/screenshots/feed.gif)
 
 _Explore & Profile Screens_
 
-![Explore & Profile Screens](https://firebasestorage.googleapis.com/v0/b/graze-app.appspot.com/o/gifs%2Fexplore.gif?alt=media&token=623f5b14-f0c9-4825-88ad-5d03544bdee4)
+![Explore & Profile Screens](/assets/screenshots/explore.gif)
 
 _Post Screens_
-![Post Screens](https://firebasestorage.googleapis.com/v0/b/graze-app.appspot.com/o/gifs%2Fpost.gif?alt=media&token=4d1a3b95-4091-4043-800c-9b28246c64ac)
+![Post Screens](/assets/screenshots/post.gif)
 
 _Settings Screen_
 
-![Settings Screen](https://firebasestorage.googleapis.com/v0/b/graze-app.appspot.com/o/gifs%2Fsettings.gif?alt=media&token=cccf7d75-c1ae-4f55-bcba-d960db9bef82)
+![Settings Screen](/assets/screenshots/settings.gif)
 
 ---
 
