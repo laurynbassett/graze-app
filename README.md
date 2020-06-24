@@ -16,7 +16,7 @@ To build the app without having to write Native code I used Expo, a toolchain bu
 
 _Feed Screen_
 
-<img src="https://laurynbassett.github.io/images/graze/feed.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/fYAX9uU5JM9JuqTc1z/giphy.gif" width='200' height="400" />
 
 _Explore & Profile Screens_
 
@@ -24,7 +24,7 @@ _Explore & Profile Screens_
 
 _Post Screens_
 
-<img src="https://laurynbassett.github.io/images/graze/post.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/SXCZtrfFcTxT4BjqeE/giphy.gif" width='200' height="400" />
 
 _Settings Screen_
 
