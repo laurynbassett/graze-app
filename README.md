@@ -28,7 +28,8 @@ _Post Screens_
 
 _Settings Screen_
 
-<img src="https://giphy.com/gifs/WOwsipdVIwlFIuQzer" width='200' height="400" />
+![Settings Screen](https://giphy.com/gifs/WOwsipdVIwlFIuQzer)
+<!-- <img src="https://giphy.com/gifs/WOwsipdVIwlFIuQzer" width='200' height="400" /> -->
 
 ---
 
