@@ -28,7 +28,7 @@ _Post Screens_
 
 _Settings Screen_
 
-![Settings Screen](https://giphy.com/gifs/WOwsipdVIwlFIuQzer)
+<iframe src="https://giphy.com/embed/WOwsipdVIwlFIuQzer" width="240" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/WOwsipdVIwlFIuQzer">via GIPHY</a></p>
 <!-- <img src="https://giphy.com/gifs/WOwsipdVIwlFIuQzer" width='200' height="400" /> -->
 
 ---
