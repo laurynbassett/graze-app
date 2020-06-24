@@ -20,7 +20,7 @@ _Feed Screen_
 
 _Explore & Profile Screens_
 
-<img src="https://media.giphy.com/media/TeyRCyt2zAg5wM5AB9/giphy.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/YoElArvh2UfrQ3ETnu/giphy.gif" width='200' height="400" />
 
 _Post Screens_
 
