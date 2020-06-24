@@ -24,7 +24,7 @@ _Explore & Profile Screens_
 
 _Post Screens_
 
-<img src="/assets/screenshots/post.gif?raw=true" width="200px" />
+<img src="/assets/screenshots/post.gif" width="200" height='400'/>
 
 _Settings Screen_
 
