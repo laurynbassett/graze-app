@@ -14,6 +14,10 @@ To build the app without having to write Native code I used Expo, a toolchain bu
 
 ## Screenshots
 
+_Login Screen_
+
+<img src="https://media.giphy.com/media/hpL2zfgR2ZxPKdM7kH/giphy.gif" width='200' height="400" />
+
 _Feed Screen_
 
 <img src="https://media.giphy.com/media/fYAX9uU5JM9JuqTc1z/giphy.gif" width='200' height="400" />
