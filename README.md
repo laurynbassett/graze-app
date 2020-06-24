@@ -20,7 +20,11 @@ _Login Screen_
 
 _Feed Screen_
 
-<img src="https://media.giphy.com/media/lpz0R1tEIaxmIJ8XtJ/giphy.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/cNZjlSqpyKHXlgs78s/giphy.gif" width='200' height="400" />
+
+_Liking Post_
+
+<img src="https://media.giphy.com/media/RIY9lXqPup62N7r2qq/giphy.gif" width='200' height="400" />
 
 _Explore & Profile Screens_
 
