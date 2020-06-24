@@ -16,19 +16,19 @@ To build the app without having to write Native code I used Expo, a toolchain bu
 
 _Feed Screen_
 
-<img src="/assets/screenshots/feed.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/fYAX9uU5JM9JuqTc1z/giphy.gif" width='200' height="400" />
 
 _Explore & Profile Screens_
 
-<img src="/assets/screenshots/explore.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/TeyRCyt2zAg5wM5AB9/giphy.gif" width='200' height="400" />
 
 _Post Screens_
 
-<img src="/assets/screenshots/post.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/SXCZtrfFcTxT4BjqeE/giphy.gif" width='200' height="400" />
 
 _Settings Screen_
 
-<img src="/assets/screenshots/settings.gif" width='200' height="400" />
+<img src="https://media.giphy.com/media/WOwsipdVIwlFIuQzer/giphy.gif" width='200' height="400" />
 
 ---
 
