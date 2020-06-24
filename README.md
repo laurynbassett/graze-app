@@ -24,7 +24,7 @@ _Explore & Profile Screens_
 
 _Post Screens_
 
-<img src="https://media.giphy.com/media/SXCZtrfFcTxT4BjqeE/giphy.gif" width='200' height="400" />
+<img src="/assets/screenshots/post.gif?raw=true" width="200px" />
 
 _Settings Screen_
 
